@@ -16,6 +16,7 @@ class Role(Base):
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    name = Column(String(65), nullable=False, unique=True)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     role_id = Column(Integer, ForeignKey("roles.id"))
