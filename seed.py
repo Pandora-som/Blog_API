@@ -11,7 +11,6 @@ with Session(bind=engine) as session:
         title="Как засолить огурчики",
         content="Статья про огурчики, вкусные огурчики",
         date_publication=dt.strptime("2019-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
-        status="опубликовано",
         likes_amount="6",
     )
     session.add(state1)
@@ -34,5 +33,9 @@ with Session(bind=engine) as session:
     
     category1 = m.Category(name="Еда")
     session.add(category1)
+    
+    status1 = m.Status(name="Черновик")
+    session.add(status1)
+    
     
     session.commit()

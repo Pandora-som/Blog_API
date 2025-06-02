@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Text, Date, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Float, Text, Date, ForeignKey, DateTime,ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -21,16 +21,21 @@ class User(Base):
     password = Column(String(255), nullable=False)
     role_id = Column(Integer, ForeignKey("roles.id"))
     created_at = Column(DateTime(), server_default=func.now())
-
+    
+class Status(Base):
+    __tablename__ = "statuses"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name =  Column(String(255))
+    
 class State(Base):
     __tablename__ = "states"
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String)
     content = Column(String)
     date_publication = Column(DateTime())
-    status = Column(String(255))
+    status_id =  Column(Integer, ForeignKey("statuses.id"))
     likes_amount = Column(Integer)
-    # likes_from_users = Column(String)
+    likes_from_users = Column(ARRAY(Integer))
     author_id = Column(Integer, ForeignKey("users.id"))
     category_id = Column(Integer, ForeignKey("categories.id"))
     

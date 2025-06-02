@@ -14,7 +14,7 @@ import os
 
 app = FastAPI()
 
-@app.get("/states", response_model=List[pyd.BaseState])
+@app.get("/posts", response_model=List[pyd.BaseState])
 def get_all_states(db: Session = Depends(get_db)):
     states = db.query(m.State).all()
     return states
