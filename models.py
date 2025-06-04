@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Text, Date, ForeignKey, DateTime,ARRAY
+from sqlalchemy import Column, Integer, String, Float, Text, Date, ForeignKey, DateTime,JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -21,6 +21,7 @@ class User(Base):
     password = Column(String(255), nullable=False)
     role_id = Column(Integer, ForeignKey("roles.id"))
     created_at = Column(DateTime(), server_default=func.now())
+    role = relationship("Role", backref="users")
     
 class Status(Base):
     __tablename__ = "statuses"
@@ -35,9 +36,12 @@ class State(Base):
     date_publication = Column(DateTime())
     status_id =  Column(Integer, ForeignKey("statuses.id"))
     likes_amount = Column(Integer)
-    likes_from_users = Column(ARRAY(Integer))
+    likes_from_users = Column(JSON(Integer))
     author_id = Column(Integer, ForeignKey("users.id"))
     category_id = Column(Integer, ForeignKey("categories.id"))
+    status = relationship("Status", backref="states")
+    autor = relationship("User", backref="states")
+    category = relationship("Category", backref="states")
     
 class Comment(Base):
     __tablename__ = "comments"
@@ -46,4 +50,6 @@ class Comment(Base):
     date = Column(DateTime())
     state_id = Column(Integer, ForeignKey("states.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
+    state = relationship("State", backref="commments")
+    user = relationship("User", backref="comments")
     

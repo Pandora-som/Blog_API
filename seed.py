@@ -12,6 +12,7 @@ with Session(bind=engine) as session:
         content="Статья про огурчики, вкусные огурчики",
         date_publication=dt.strptime("2019-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
         likes_amount="6",
+        likes_from_users=[1,2],
     )
     session.add(state1)
     
