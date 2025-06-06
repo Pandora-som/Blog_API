@@ -15,12 +15,25 @@ with Session(bind=engine) as session:
         likes_from_users=[1,2],
     )
     session.add(state1)
+    state2 = m.State(
+        title="Never ending story",
+        content="Cats for cats",
+        date_publication=dt.strptime("2020-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
+        likes_amount="13",
+        likes_from_users=[1,2.6],
+    )
+    session.add(state2)
     
     comment1 = m.Comment(
         text="cool",
         date=dt.strptime("2019-02-01T08:20:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
     )
     session.add(comment1)
+    comment2 = m.Comment(
+        text="so pity",
+        date=dt.strptime("2020-03-01T08:20:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
+    )
+    session.add(comment2)
     
     user1 = m.User(
         name="Ami",
@@ -34,9 +47,12 @@ with Session(bind=engine) as session:
     
     category1 = m.Category(name="Еда")
     session.add(category1)
+    category2 = m.Category(name="Sadness")
+    session.add(category2)
     
     status1 = m.Status(name="Черновик")
     session.add(status1)
-    
+    status2 = m.Status(name="published")
+    session.add(status2)
     
     session.commit()
