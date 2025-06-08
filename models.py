@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Text, Date, ForeignKey, DateTime,JSON
+from sqlalchemy import Column, Integer, String, Float, Text, Date, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -36,7 +36,6 @@ class State(Base):
     date_publication = Column(DateTime())
     status_id =  Column(Integer, ForeignKey("statuses.id"))
     likes_amount = Column(Integer)
-    likes_from_users = Column(JSON(Integer))
     author_id = Column(Integer, ForeignKey("users.id"))
     category_id = Column(Integer, ForeignKey("categories.id"))
     status = relationship("Status", backref="states")

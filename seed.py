@@ -12,7 +12,8 @@ with Session(bind=engine) as session:
         content="Статья про огурчики, вкусные огурчики",
         date_publication=dt.strptime("2019-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
         likes_amount="6",
-        likes_from_users=[1,2],
+        category_id="1",
+        status_id="1"
     )
     session.add(state1)
     state2 = m.State(
@@ -20,25 +21,30 @@ with Session(bind=engine) as session:
         content="Cats for cats",
         date_publication=dt.strptime("2020-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
         likes_amount="13",
-        likes_from_users=[1,2.6],
+        category_id="1",
+        status_id="1"
     )
     session.add(state2)
     
     comment1 = m.Comment(
         text="cool",
         date=dt.strptime("2019-02-01T08:20:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
+        state_id="1",
+        user_id="1"
     )
     session.add(comment1)
     comment2 = m.Comment(
         text="so pity",
         date=dt.strptime("2020-03-01T08:20:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
+        state_id="1",
+        user_id="1"
     )
     session.add(comment2)
     
     user1 = m.User(
         name="Ami",
         password="666666",
-        email="mari@mail.ru",
+        email="mari@mail.ru"
     )
     session.add(user1)
     

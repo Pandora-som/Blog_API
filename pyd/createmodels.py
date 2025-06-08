@@ -21,7 +21,6 @@ class CreateState(BaseModel):
     content: str = Field(example="В этой статье мы рассмотрим 5 способо вкусного приготовления картофеля.")
     date_publication: datetime = Field(example="2025-06-01-20:52:00")
     likes_amount: int = Field(ge=0, example="13")
-    likes_from_users: List[int] = Field()
     
 class CreateComment(BaseModel):
     text: str = Field(example="Спасибо, очень вкусно")
