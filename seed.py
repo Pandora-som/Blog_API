@@ -25,6 +25,15 @@ with Session(bind=engine) as session:
         status_id="1"
     )
     session.add(state2)
+    state3 = m.State(
+        title="ending story",
+        content="sad for sad",
+        date_publication=dt.strptime("2020-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
+        likes_amount="13",
+        category_id="1",
+        status_id="2"
+    )
+    session.add(state3)
     
     comment1 = m.Comment(
         text="cool",
