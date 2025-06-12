@@ -11,27 +11,27 @@ with Session(bind=engine) as session:
         title="Как засолить огурчики",
         content="Статья про огурчики, вкусные огурчики",
         date_publication=dt.strptime("2019-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
-        likes_amount="6",
         category_id="1",
-        status_id="1"
+        status_id="1",
+        author_id="1"
     )
     session.add(state1)
     state2 = m.State(
         title="Never ending story",
         content="Cats for cats",
         date_publication=dt.strptime("2020-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
-        likes_amount="13",
         category_id="1",
-        status_id="1"
+        status_id="1",
+        author_id="1"
     )
     session.add(state2)
     state3 = m.State(
         title="ending story",
         content="sad for sad",
         date_publication=dt.strptime("2020-01-01T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ").date(),
-        likes_amount="13",
         category_id="1",
-        status_id="2"
+        status_id="2",
+        author_id="1"
     )
     session.add(state3)
     
@@ -53,7 +53,8 @@ with Session(bind=engine) as session:
     user1 = m.User(
         name="Ami",
         password="666666",
-        email="mari@mail.ru"
+        email="mari@mail.ru",
+        role_id="1"
     )
     session.add(user1)
     
@@ -69,5 +70,8 @@ with Session(bind=engine) as session:
     session.add(status1)
     status2 = m.Status(name="published")
     session.add(status2)
+    
+    l1=m.StateLike(user_id=1, state_id=1)
+    session.add(l1)
     
     session.commit()

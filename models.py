@@ -35,12 +35,18 @@ class State(Base):
     content = Column(String)
     date_publication = Column(DateTime())
     status_id =  Column(Integer, ForeignKey("statuses.id"))
-    likes_amount = Column(Integer)
     author_id = Column(Integer, ForeignKey("users.id"))
     category_id = Column(Integer, ForeignKey("categories.id"))
     status = relationship("Status", backref="states")
     autor = relationship("User", backref="states")
     category = relationship("Category", backref="states")
+    likes=relationship("User", secondary="states_likes")
+    
+class StateLike(Base):
+    __tablename__="states_likes"
+    id=Column(Integer, primary_key=True, autoincrement=True)
+    state_id=Column(Integer, ForeignKey('states.id'))
+    user_id=Column(Integer, ForeignKey('users.id'))
     
 class Comment(Base):
     __tablename__ = "comments"

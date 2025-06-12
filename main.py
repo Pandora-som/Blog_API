@@ -57,6 +57,35 @@ def create_state(state:pyd.CreateState, db:Session=Depends(get_db)):
     db.commit()
     return state_db
 
+@app.put("/api/post/{id}", response_model=pyd.SchemeState)
+def edit_state(id:int, state:pyd.UpdateState, db:Session=Depends(get_db)):
+    state_db = db.query(m.State).filter(
+        m.State.id == id
+    ).first()
+    if not state_db:
+        raise HTTPException(404, "Такой статьи не существует!")
+
+    state_db.title = state.title
+    state_db.content = state.content
+    state_db.date_publication = state.date_publication
+    state_db.status_id = state.status_id
+    state_db.author_id = state.author_id
+    state_db.category_id = state.category_id
+
+    db.add(state_db)
+    db.commit()
+    return state_db
+
+@app.delete("/api/post/{id}")
+def delete_state(id:int, db:Session=Depends(get_db)):
+    state_db = db.query(m.State).filter(
+        m.State.id == id
+    ).first()
+    if not state_db:
+        raise HTTPException(404, "Такой статьи не существует!")
+    db.delete(state_db)
+    db.commit()
+    return {"details": "Статья удалена"}
 
 @app.get("/api/comments", response_model=List[pyd.SchemeComment])
 def get_comments(db:Session=Depends(get_db)):
@@ -71,5 +100,73 @@ def get_comment(id:int, db:Session=Depends(get_db)):
         m.Comment.id == id
     ).first()
     if not comment:
-        raise HTTPException(404, "Комментарий не существует!")
+        raise HTTPException(404, "Комментария не существует!")
     return comment
+
+@app.post("/api/comment", response_model=pyd.SchemeComment)
+def create_comment(comment:pyd.CreateComment, db:Session=Depends(get_db)):
+    check_state = db.query(m.State).filter(
+        m.State.id == comment.state_id
+    ).first()
+    if not check_state:
+        raise HTTPException(404, "Такой статьи не существет!")
+    
+    check_user = db.query(m.User).filter(
+        m.User.id == comment.user_id
+    ).first()
+    if not check_user:
+        raise HTTPException(404, "Такого пользователя не существет!")
+    
+    comment_db = m.Comment()
+
+    comment_db.text = comment.text
+    comment_db.date = comment.date
+    comment_db.state_id = comment.state_id
+    comment_db.user_id = comment.user_id
+
+    db.add(comment_db)
+    db.commit()
+
+    return comment_db
+
+@app.put("/api/comment/{id}", response_model=pyd.SchemeComment)
+def edit_comment(id:int, comment:pyd.CreateComment, db:Session=Depends(get_db)):
+    check_state = db.query(m.State).filter(
+        m.State.id == comment.state_id
+    ).first()
+    if not check_state:
+        raise HTTPException(404, "Такой статьи не существет!")
+    
+    check_user = db.query(m.User).filter(
+        m.User.id == comment.user_id
+    ).first()
+    if not check_user:
+        raise HTTPException(404, "Такого пользователя не существет!")
+    comment_db = db.query(m.Comment).filter(
+        m.Comment.id == id
+    ).first()
+    if not comment_db:
+        raise HTTPException(404, "Такого комментария не существует!")
+    
+    comment_db.text = comment.text
+    comment_db.date = comment.date
+    comment_db.state_id = comment.state_id
+    comment_db.user_id = comment.user_id
+
+    db.add(comment_db)
+    db.commit()
+
+    return comment_db
+
+@app.delete("/api/comment/{id}")
+def delete_comment(id:int, db:Session=Depends(get_db)):
+    comment_db = db.query(m.Comment).filter(
+        m.Comment.id == id
+    ).first()
+    if not comment_db:
+        raise HTTPException(404, "Такого комментария не существует!")
+    
+    db.delete(comment_db)
+    db.commit()
+
+    return {"details": "Комментарий удалён!"}

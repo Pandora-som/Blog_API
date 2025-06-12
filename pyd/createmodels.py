@@ -20,15 +20,23 @@ class CreateStatus(BaseModel):
 class CreateState(BaseModel):
     title: str = Field(example="5 способов приготовления картофеля")
     content: str = Field(example="В этой статье мы рассмотрим 5 способо вкусного приготовления картофеля.")
-    date_publication: datetime = Field(example="2025-06-01-20:52:00")
-    likes_amount: int = Field(ge=0, example="13")
+    date_publication: datetime = Field(example="2019-01-01T08:00:00Z")
     status_id:int=Field(example=1)
     author_id:int=Field(example=1)
     category_id:int=Field(example=1)
     
+class UpdateState(BaseModel):
+    title: str = Field(example="5 способов приготовления картофеля")
+    content: str = Field(example="В этой статье мы рассмотрим 5 способо вкусного приготовления картофеля.")
+    date_publication: datetime = Field(example="2019-01-01T08:00:00Z")
+    status_id:int=Field(example=1)
+    author_id:int=Field(example=1)
+    category_id:int=Field(example=1)
+    likes_id:List|None=Field(example=[1, 3])
+    
 class CreateComment(BaseModel):
     text: str = Field(example="Спасибо, очень вкусно")
-    date: datetime = Field(example="2025-06-01-21:02:00")
+    date: datetime = Field(example="2019-01-01T08:00:00Z")
     state_id: int = Field(example=1)
     user_id: int = Field(example=1)
     
