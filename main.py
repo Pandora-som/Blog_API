@@ -71,6 +71,7 @@ def edit_state(id:int, state:pyd.UpdateState, db:Session=Depends(get_db)):
     state_db.status_id = state.status_id
     state_db.author_id = state.author_id
     state_db.category_id = state.category_id
+    state_db.likes_amount = len(state_db.likes)
 
     db.add(state_db)
     db.commit()
@@ -170,3 +171,64 @@ def delete_comment(id:int, db:Session=Depends(get_db)):
     db.commit()
 
     return {"details": "Комментарий удалён!"}
+
+@app.get("/api/categories", response_model=List[pyd.BaseCategory])
+def get_categories(db:Session=Depends(get_db)):
+    categories = db.query(m.Category).all()
+    return categories
+
+@app.get("/api/category/{id}", response_model=pyd.BaseCategory)
+def get_category(id:int, db:Session=Depends(get_db)):
+    category = db.query(m.Category).filter(
+        m.Category.id == id
+    ).first()
+    if not category:
+        raise HTTPException(404, "Такой категории не существует!")
+    return category
+
+@app.post("/api/category/{name}", response_model=pyd.BaseCategory)
+def create_category(name:str, db:Session=Depends(get_db)):
+    check_category = db.query(m.Category).filter(
+        m.Category.name == name
+    ).first()
+    if check_category:
+        raise HTTPException(400, "Такая категория уже существует!")
+    category_db = m.Category()
+    category_db.name = name
+
+    db.add(category_db)
+    db.commit()
+    return category_db
+
+@app.put("/api/category/{id}/{name}", response_model=pyd.BaseCategory)
+def edit_category(id:int, name:str, db:Session=Depends(get_db)):
+    check_category = db.query(m.Category).filter(
+        m.Category.name == name
+    ).first()
+    if check_category:
+        raise HTTPException(400, "Такая категория уже существует!")
+    
+    category_db = db.query(m.Category).filter(
+        m.Category.id == id
+    ).first()
+    if not category_db:
+        raise HTTPException(400, "Такой категории не существует!")
+
+    category_db.name = name
+
+    db.add(category_db)
+    db.commit()
+    return category_db
+
+@app.delete("/api/category/{id}")
+def delete_category(id:int, db:Session=Depends(get_db)):
+    category_db = db.query(m.Category).filter(
+        m.Category.id == id
+    ).first()
+    if not category_db:
+        raise HTTPException(400, "Такой категории не существует!")
+
+    db.delete(category_db)
+    db.commit()
+    return {"detail": "Категория удалена!"}
+

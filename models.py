@@ -35,6 +35,7 @@ class State(Base):
     content = Column(String)
     date_publication = Column(DateTime())
     status_id =  Column(Integer, ForeignKey("statuses.id"))
+    likes_amount = Column(Integer, default=0)
     author_id = Column(Integer, ForeignKey("users.id"))
     category_id = Column(Integer, ForeignKey("categories.id"))
     status = relationship("Status", backref="states")
