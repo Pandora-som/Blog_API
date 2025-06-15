@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from database import engine
 import models as m
 from datetime import datetime as dt
+import bcrypt
 
 m.Base.metadata.drop_all(bind=engine)
 m.Base.metadata.create_all(bind=engine)
@@ -52,14 +53,36 @@ with Session(bind=engine) as session:
     
     user1 = m.User(
         name="Ami",
-        password="666666",
+        password=bcrypt.hashpw(b'666666', bcrypt.gensalt()),
         email="mari@mail.ru",
         role_id="1"
     )
     session.add(user1)
     
-    role1 = m.Role(name="читатель")
+    user2 = m.User(
+        name="Ami-avtor",
+        password=bcrypt.hashpw(b'AmiAvtor', bcrypt.gensalt()),
+        email="ami-avtor@mail.ru",
+        role_id="2"
+    )
+    session.add(user2)
+
+    user3 = m.User(
+        name="Ami-admin",
+        password=bcrypt.hashpw(b'AmiAdmin', bcrypt.gensalt()),
+        email="ami-admin@mail.ru",
+        role_id="3"
+    )
+    session.add(user3)
+    
+    role1 = m.Role(name="Читатель")
     session.add(role1)
+    
+    role2 = m.Role(name="Автор")
+    session.add(role2)
+
+    role3 = m.Role(name="Модератор")
+    session.add(role3)
     
     category1 = m.Category(name="Еда")
     session.add(category1)

@@ -29,7 +29,7 @@ class UpdateState(BaseModel):
     title: str = Field(example="5 способов приготовления картофеля")
     content: str = Field(example="В этой статье мы рассмотрим 5 способо вкусного приготовления картофеля.")
     date_publication: datetime = Field(example="2019-01-01T08:00:00Z")
-    likes_amount: int = Field(ge=0, example="13")
+    #likes_amount: int = Field(ge=0, example="13")
     status_id:int=Field(example=1)
     author_id:int=Field(example=1)
     category_id:int=Field(example=1)
@@ -41,3 +41,6 @@ class CreateComment(BaseModel):
     state_id: int = Field(example=1)
     user_id: int = Field(example=1)
     
+class LoginUser(BaseModel):
+    name:str=Field(example="user", min_length=2, max_length=60)
+    password:str=Field(min_length=6, max_length=60)
