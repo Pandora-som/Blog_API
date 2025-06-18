@@ -20,6 +20,22 @@
 Также данный API поддерживает разделение пользователей на роли
 (читатель, автор, модератор).
 
+Для авторизаци используется заголовок Authorization со значением Bearer {"token": "Токен, полученный в api/login"}
+
+Данные для входа:
+
+-   Читатель:
+    name: Ami-reader
+    password: AmiReader
+
+-   Автор:
+    name: Ami-avtor
+    password: AmiAvtor
+
+-   Модератор:
+    name: Ami-moderator
+    password: AmiModerator
+
 **Используемые технологии и их версии:**
 
 Для разработки API был использован веб-фреймворк FastAPI 0.113.0, а
